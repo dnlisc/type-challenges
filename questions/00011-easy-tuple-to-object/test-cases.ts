@@ -1,5 +1,8 @@
 import type { Equal, Expect } from '@type-challenges/utils'
 
+type TupleToObject<T extends readonly (keyof any)[]> = { [k in T[number]]: k }
+// type TupleToObject<T extends readonly PropertyKey[]> = { [k in T[number]]: k }
+
 const tuple = ['tesla', 'model 3', 'model X', 'model Y'] as const
 const tupleNumber = [1, 2, 3, 4] as const
 const sym1 = Symbol(1)
