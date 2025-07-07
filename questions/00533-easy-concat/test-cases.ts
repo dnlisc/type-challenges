@@ -1,5 +1,8 @@
 import type { Equal, Expect } from '@type-challenges/utils'
 
+// any || unknown
+type Concat<T extends readonly any[], U extends readonly any[]> = [...T, ...U] 
+
 const tuple = [1] as const
 
 type cases = [
