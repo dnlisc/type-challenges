@@ -1,5 +1,9 @@
 import type { Equal, Expect } from '@type-challenges/utils'
 
+type F = (...args: any[]) => any;
+
+type MyParameters<T extends F> = T extends (...args: infer P) => any ? P : never;
+
 function foo(arg1: string, arg2: number): void {}
 function bar(arg1: boolean, arg2: { a: 'A' }): void {}
 function baz(): void {}
