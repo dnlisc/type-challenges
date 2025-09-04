@@ -1,5 +1,16 @@
 import type { Equal, Expect } from '@type-challenges/utils'
 
+type ReadonlyKeys<T> = { [p in keyof T]-?: 
+    (<U>() => U extends { [r in p]: T[r] } ? 1 : 2) extends (<U>() => U extends { -readonly [r in p]: T[r] } ? 1 : 2) ? never : p
+  }[keyof T]
+
+type MutableKeys<T> = Exclude<keyof T, ReadonlyKeys<T>>
+
+type MyOmit<T, K extends keyof T> =
+  ( Exclude<ReadonlyKeys<T>, K> extends never ? {} : { readonly [p in Exclude<ReadonlyKeys<T>, K>]: T[p] } )
+  &  
+  ( Exclude<MutableKeys<T>, K> extends never ? {} : { [p in Exclude<MutableKeys<T>, K>]: T[p]} )
+
 type cases = [
   Expect<Equal<Expected1, MyOmit<Todo, 'description'>>>,
   Expect<Equal<Expected2, MyOmit<Todo, 'description' | 'completed'>>>,
