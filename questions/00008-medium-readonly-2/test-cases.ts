@@ -1,5 +1,18 @@
 import type { Alike, Expect } from '@type-challenges/utils'
 
+
+type MyReadonly2<T, K extends keyof T = keyof T> = {
+  [P in keyof T as P extends K ? never : P] : T[P]
+} & {
+  readonly [P in K]: T[P]
+}
+
+type p = MyReadonly2<Todo1, 'title' | 'description'>
+type p2 = MyReadonly2<Todo1>
+
+// Short version
+// type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> & Readonly<Pick<T, K>>;
+
 type cases = [
   Expect<Alike<MyReadonly2<Todo1>, Readonly<Todo1>>>,
   Expect<Alike<MyReadonly2<Todo1, 'title' | 'description'>, Expected>>,
