@@ -11,6 +11,13 @@ type MyOmit<T, K extends keyof T> =
   &  
   ( Exclude<MutableKeys<T>, K> extends never ? {} : { [p in Exclude<MutableKeys<T>, K>]: T[p]} )
 
+
+// Simpler solution (keeps the readonly flag)
+
+type MyOmit<T, K extends keyof T> = { 
+    [P in keyof T as P extends K ? never : P]: T[P]
+}
+
 type cases = [
   Expect<Equal<Expected1, MyOmit<Todo, 'description'>>>,
   Expect<Equal<Expected2, MyOmit<Todo, 'description' | 'completed'>>>,
